@@ -22,8 +22,8 @@ class CameraModule():
     # 初始化传感器
     def __init__(self):
         # 配置信息
-        self.prototxt_path = r'module/camera_detect/mobilenet_ssd/MobileNetSSD_deploy.prototxt'
-        self.model_path = r'module/camera_detect/mobilenet_ssd/MobileNetSSD_deploy.caffemodel'
+        self.prototxt_path = r'module/voc_detect/mobilenet_ssd/MobileNetSSD_deploy.prototxt'
+        self.model_path = r'module/voc_detect/mobilenet_ssd/MobileNetSSD_deploy.caffemodel'
         self.confidence_threshold = 0.2
         # VOC 类别
         self.CLASSES = ["background", "aeroplane", "bicycle", "bird", "boat",
