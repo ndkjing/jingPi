@@ -1,9 +1,9 @@
 import numpy as np
 import math
 
-from gasture_utils.Finger import Finger
-from gasture_utils.FingerCurled import FingerCurled
-from gasture_utils.FingerPosition import FingerPosition
+from sensor_module.camera.hand_keypoints.gasture_utils.Finger import Finger
+from sensor_module.camera.hand_keypoints.gasture_utils.FingerCurled import FingerCurled
+from sensor_module.camera.hand_keypoints.gasture_utils.FingerPosition import FingerPosition
 
 
 class FingerPoseEstimate:
