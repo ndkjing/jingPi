@@ -171,7 +171,7 @@ while True:
         cv2.putText(show_image,
                     'FPS:%f' % ( np.mean(fps_list)), (30, 70),
                     cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 155), 1, cv2.LINE_AA)
-        cv2.imwrite(os.path.join('./images/%d.jpg'%frame_count),show_image)
+        cv2.imwrite(os.path.join('./images_test/%d.jpg'%frame_count),show_image)
     if sysstr == "Windows":
         cv2.namedWindow("USB Camera", cv2.WINDOW_AUTOSIZE)
         cv2.imshow("USB Camera", show_image)

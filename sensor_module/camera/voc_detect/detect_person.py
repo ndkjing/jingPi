@@ -1,5 +1,5 @@
 #coding:utf-8
-# python deep_learning_object_detection.py --image images/example_01.jpg \
+# python deep_learning_object_detection.py --image images_test/example_01.jpg \
 #	--prototxt MobileNetSSD_deploy.prototxt.txt --model MobileNetSSD_deploy.caffemodel
 # import the necessary packages
 import numpy as np
@@ -8,7 +8,7 @@ import cv2
 import os.path
 
 """
-检测人
+VOC目标检测
 """
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
