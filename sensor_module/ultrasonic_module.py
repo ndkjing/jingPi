@@ -1,4 +1,10 @@
-import RPi.GPIO as GPIO
+"""
+使用HC04超声波模块测量距离
+"""
+try:
+    import RPi.GPIO as GPIO
+except ImportError:
+    pass
 import time
 
 

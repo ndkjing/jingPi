@@ -15,16 +15,16 @@ import numpy as np
 import cv2
 from collections import deque
 
-from sensor_module.camera.hand_keypoints.hand_tracker import HandTracker
+from module.camera.hand_keypoints.hand_tracker import HandTracker
 
-from sensor_module.camera.hand_keypoints.gasture_utils.determine_gasture import create_known_finger_poses, \
+from module.camera.hand_keypoints.gasture_utils.determine_gasture import create_known_finger_poses, \
     determine_position, get_position_name_with_pose_id
-from sensor_module.camera.hand_keypoints.gasture_utils.FingerPoseEstimate import FingerPoseEstimate
+from module.camera.hand_keypoints.gasture_utils.FingerPoseEstimate import FingerPoseEstimate
 
 """
 mediapipe 模型 handdetect模型
 """
-class DetectHand():
+class HandDetect():
     def __init__(self):
         #   模型路径
         self.palm_model_path = "./models/palm_detection_without_custom_op.tflite"
@@ -230,5 +230,5 @@ class DetectHand():
         cv2.destroyAllWindows()
 
 if __name__=='__main__':
-    c = DetectHand()
+    c = HandDetect()
     c.run()

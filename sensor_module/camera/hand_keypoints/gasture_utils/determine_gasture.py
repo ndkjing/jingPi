@@ -1,6 +1,6 @@
-from sensor_module.camera.hand_keypoints.gasture_utils.FingerCurled import FingerCurled
-from sensor_module.camera.hand_keypoints.gasture_utils.FingerPosition import FingerPosition
-from sensor_module.camera.hand_keypoints.gasture_utils.FingerDataFormation import FingerDataFormation
+from module.camera.hand_keypoints.gasture_utils.FingerCurled import FingerCurled
+from module.camera.hand_keypoints.gasture_utils.FingerPosition import FingerPosition
+from module.camera.hand_keypoints.gasture_utils.FingerDataFormation import FingerDataFormation
 
 
 def determine_position(curled_positions, finger_positions, known_finger_poses, min_threshold):

@@ -1,5 +1,3 @@
-
-
 class ControlModule():
     def __init__(self,status='stop',camera_center_pid_output = 0,get_fream_interval = 1.5,ultrasonic_detect_interval = 0.05):
         # 小测运行状态
