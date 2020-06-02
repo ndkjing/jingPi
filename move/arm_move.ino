@@ -46,12 +46,13 @@ boolean PULstat6 = 0;
 
 //robot geometry
 // 360度/200步进/32微步进/齿轮传动比
-const double dl1 = 360.0/200.0/32.0/4.8;
-const double dl2 = 360.0/200.0/32.0/4.0;
-const double dl3 = 360.0/200.0/32.0/5.0;
-const double dl4 = 360.0/200.0/32.0/2.8;
-const double dl5 = 360.0/200.0/32.0/2.1;
-const double dl6 = 360.0/200.0/32.0/1.0;
+const double dl1 = 360.0/200.0/16.0/4.8;
+const double dl2 = 360.0/200.0/16.0/4.0;
+const double dl3 = 360.0/200.0/16.0/5.0;
+const double dl4 = 360.0/200.0/16.0/2.8;
+const double dl5 = 360.0/200.0/16.0/2.1;
+const double dl6 = 360.0/200.0/16.0/1.0;
+
 //
 const double r1 = 47.0;
 const double r2 = 110.0;
