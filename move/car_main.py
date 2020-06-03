@@ -3,10 +3,9 @@
 """
 
 
-from module.camera_module import CameraModule
 from module.wheel_module import WheelModule
 from module.ultrasonic_module import UltrasonicModule
-from module.pid_module import PIDModule
+# from module.pid_module import PIDModule
 
 import numpy as np
 from collections import deque
@@ -19,7 +18,7 @@ import  sys
 
 
 # 生成模块控制类
-camera= CameraModule()
+camera= WheelModule()  # 等待修改
 wheel = WheelModule(11, 12, 13, 15)
 
 forward_ultrasonic = UltrasonicModule(32, 36)

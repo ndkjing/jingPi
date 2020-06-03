@@ -1,4 +1,4 @@
-# from sensor_module.camera.voc_detect
+# from module.camera.voc_detect
 from module.camera.hand_keypoints import infer
 
 """
