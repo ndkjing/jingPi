@@ -1,5 +1,6 @@
 /*
 Simple script to move my tiny 6dof robotic arm
+遇到问题：走到错误角度时力量太大将打印的机械臂损坏
 */
 #include <math.h>
 
@@ -45,7 +46,7 @@ boolean PULstat5 = 0;
 boolean PULstat6 = 0;
 
 //robot geometry
-// 360度/200步进/32微步进/齿轮传动比
+// 360度/200步进/16微步进/齿轮传动比
 const double dl1 = 360.0/200.0/16.0/4.8;
 const double dl2 = 360.0/200.0/16.0/4.0;
 const double dl3 = 360.0/200.0/16.0/5.0;
