@@ -14,7 +14,7 @@ import threading, signal
 import cv2
 import math
 import time
-import  sys
+import sys
 
 
 # 生成模块控制类

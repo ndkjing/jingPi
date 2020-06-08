@@ -16,22 +16,22 @@ def main():
     #     download_file(filename)
 
     # Once we have the dependencies, add a selector for the app mode on the sidebar.
-    st.sidebar.title("选择做什么")
+    st.sidebar.title("选择功能")
     app_mode = st.sidebar.selectbox("功能",
-        ["预览摄像头","GPIO控制","car控制","arm控制"])
-    if app_mode == "预览摄像头":
+        ["说明","预览摄像头","car控制","arm控制"])
+    if app_mode == "说明":
+        st.sidebar.success('各功能说明')
+
+    elif app_mode == "预览摄像头":
         st.sidebar.success('To continue select "Run the app".')
-        st.code(get_file_content_as_string("app.py"))
-    elif app_mode == "GPIO控制":
-        readme_text.empty()
-        run_the_app()
+
     elif app_mode == "car控制":
         readme_text.empty()
-    elif app_mode == "car控制":
-        readme_text.empty()
+        car_control()
+
     elif app_mode == "arm控制":
         readme_text.empty()
-
+        arm_control()
 
 # def view_camera_flask():
 #     """
@@ -129,7 +129,6 @@ def download_file(file_path):
         if progress_bar is not None:
             progress_bar.empty()
 
-
 # 预览摄像头数据
 def view_camera():
     # To make Streamlit fast, st.cache allows us to reuse computation across runs.
@@ -183,17 +182,19 @@ def view_camera():
     draw_image_with_boxes(image, yolo_boxes, "实时检测模型",
         "**模型检测** (并交比阈值 `%3.1f`) (置信度 `%3.1f`)" % (overlap_threshold, confidence_threshold))
 
-# TODO GPIO 控制
-def gpio_control():
-    pass
 
-# TODO car 控制
 def car_control():
-    pass
+    choose_move_status = st.radio('主动选择运动',('停止','前进','后退','左转','右转'))
+    st.write(choose_move_status)
+    #  TODO 显示视频  根据手势自动运行
 
-# TODO arm 控制
+
 def arm_control():
-    pass
+    choose_move_status = st.multiselect('选择Dof', ('1轴', '2轴', '3轴', '4轴','5轴','6轴'))
+    angel = st.slider('选择舵机旋转角度', 0, 180, 90)
+    st.write(angel)
+    #  TODO 显示视频
+
 
 # This sidebar UI is a little search engine to find certain object types.
 def frame_selector_ui(summary):
