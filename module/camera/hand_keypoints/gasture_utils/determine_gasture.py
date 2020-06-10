@@ -118,7 +118,7 @@ def create_known_finger_poses():
     thumbs_up_right.position_id = 1
     known_finger_poses.append(thumbs_up_right)
 
-    ####### 3 Spock
+    ####### 3 Spock   伸开手掌
     spock = FingerDataFormation()
     spock.position_name = 'Spock'
     spock.curl_position = [

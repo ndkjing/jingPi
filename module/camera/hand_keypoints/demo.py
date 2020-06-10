@@ -1,3 +1,6 @@
+"""
+测试代码
+"""
 # python主程序也属于一个线程
 import threading #线程模块
 import time

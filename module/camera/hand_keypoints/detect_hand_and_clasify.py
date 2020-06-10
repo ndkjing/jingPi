@@ -55,6 +55,16 @@ class HandKeypoints:
                            'One':7,
                            'Three':8
                            }
+        self.gasture_define_chinese = { 'Simple Thumbs Up':'竖起大拇指',
+                           'Thumbs Up Right':'大拇指向右',
+                           'I love you':'I love you',
+                           'Victory':'数字二',
+                            'Pointing Up':'大拇指和食指向上',
+                            'Okay':'OK',
+                           'Spock':'伸开手掌',
+                           'One':'数字一',
+                           'Three':'数字三'
+                           }
         self.reverse_gasture_define = {v:k for k,v in self.gasture_define.items()}
         self.known_finger_poses = create_known_finger_poses()
         #        8   12  16  20
@@ -248,27 +258,21 @@ class HandKeypoints:
         previous_frame,current_frame = None,None
         first_flag = True
         while True:
-            current_frame = camera_obj.current_frame
-
-            # 判断当前帧是否更新，未更新则等待更新后再预测
-            # if first_flag:
-            #     current_frame=camera_obj.current_frame
-            # else:
-            #     first_flag=False
-            #     previous_frame = current_frame
-            #     current_frame = camera_obj.current_frame
-            # if (previous_frame==current_frame).all():
-            #     time.sleep(1/10)
-            #     continue
+            #判断当前帧是否更新，未更新则等待更新后再预测
+            if first_flag:
+                current_frame=camera_obj.current_frame
+            else:
+                first_flag=False
+                previous_frame = current_frame
+                current_frame = camera_obj.current_frame
+            if (previous_frame==current_frame).all():
+                time.sleep(1/10)
+                continue
             show_image=copy.deepcopy(current_frame)
-            classify_image=copy.deepcopy(current_frame)
-
             color_image=cv2.cvtColor(current_frame, cv2.COLOR_BGR2RGB)   # 将BGR转为RGB
-            classify_image=cv2.cvtColor(classify_image, cv2.COLOR_BGR2RGB)   # 将BGR转为RGB
 
             start_time=time.time()
-            # print(color_image.shape)
-            # 判断检测间隔
+            # 执行检测
             kp, box,return_track=self.detector(color_image,None,True)
             print('box:',box)
             if return_track is None:
@@ -279,6 +283,7 @@ class HandKeypoints:
                 # print('kp is ',kp)
                 pts = np.array(box, np.int32)
                 kp = np.array(kp, np.int32)
+
                 # 计算手势
                 fingerPoseEstimate = FingerPoseEstimate(kp)
                 fingerPoseEstimate.calculate_positions_of_fingers(print_finger_info=False)
@@ -291,10 +296,11 @@ class HandKeypoints:
                 # 仅绘制最高概率与绘制所有可能概率
                 if len(gasture_pre) > 0:
                     self.Q.append(self.gasture_define[gasture_pre[0][0]])  # 通过队列中最多的元素输出为类别
+                    # 统计Q中元素个数
                     counts = np.bincount(self.Q)
                     # 返回众数
                     max_index = np.argmax(counts)
-                    print(self.reverse_gasture_define[max_index])
+                    print(self.gasture_define_chinese[self.reverse_gasture_define[max_index]])
                     cv2.putText(show_image,
                                 'rank 1 pre  %s probably %f' % (self.reverse_gasture_define[max_index], gasture_pre[0][1]),
                                 (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 155), 1, cv2.LINE_AA)
@@ -304,6 +310,7 @@ class HandKeypoints:
                 for i in kp:
                     cv2.circle(show_image, center=(i[0], i[1]), radius=3, color=(0, 255, 0), thickness=-1)
                 # cv2.rectangle(show_image, (int(box[0,0]), int(box[0,1])), (int(box[1,0]), int(box[1,1])), (0, 255,255), 2)
+
                 # 绘制关键点链接线
                 cv2.line(show_image, (kp[0][0], kp[0][1]),
                          (kp[1][0], kp[1][1]), (255, 0, 0), 2)
@@ -368,10 +375,7 @@ class HandKeypoints:
                 cv2.imshow("USB Camera", show_image)
                 cv2.waitKey(1)
 
-
-
-        # 保存图片
-
+    # 保存图片
     def save_image(self, frame):
         """
         保存图片 ，在目标文件夹超过指定数量时按时间顺序覆盖
