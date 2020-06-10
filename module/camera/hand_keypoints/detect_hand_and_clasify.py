@@ -12,7 +12,7 @@ else:
     print("other System tasks")
 
 import copy,os,sys
-print(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath('__file__'))))))
+print('执行路径',os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath('__file__'))))))
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath('__file__'))))))
 import time
 import numpy as np
@@ -23,6 +23,7 @@ from module.camera.hand_keypoints.hand_tracker import HandTracker
 from module.camera.hand_keypoints.gasture_utils.determine_gasture import create_known_finger_poses, determine_position, get_position_name_with_pose_id
 from module.camera.hand_keypoints.gasture_utils.FingerPoseEstimate import FingerPoseEstimate
 
+from module.camera.get_camera import camera_obj
 """
 mediapipe 模型 handdetect模型
 """
@@ -38,8 +39,8 @@ class HandKeypoints:
 # cap = cv2.VideoCapture(r'hand.flv') # 使用本地视频
         self.cap = cv2.VideoCapture(0)  # 调用webcamera
         self.cap.set(cv2.CAP_PROP_FPS, 30)
-        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 480)
-        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+        # self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 480)
+        # self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
         self.box_enlarge=1.3
         self.detector = HandTracker(self.palm_model_path, self.landmark_model_path, self.anchors_path,
                                box_shift=0.2, box_enlarge=self.box_enlarge)
@@ -240,29 +241,37 @@ class HandKeypoints:
 
         self.cap.release()
         cv2.destroyAllWindows()
-        # 保存图片
 
-    def infer_image(self,image,save_iamge_flag=True):
+    def infer_frame(self,save_iamge_flag=False,show_flag = False):
         frame_count = 0
         return_track={}
+        previous_frame,current_frame = None,None
+        first_flag = True
         while True:
-            ret, color_image=self.cap.read()
-            show_image=copy.deepcopy(color_image)
-            classify_image=copy.deepcopy(color_image)
+            current_frame = camera_obj.current_frame
 
-            color_image=cv2.cvtColor(color_image, cv2.COLOR_BGR2RGB)   # 将BGR转为RGB
+            # 判断当前帧是否更新，未更新则等待更新后再预测
+            # if first_flag:
+            #     current_frame=camera_obj.current_frame
+            # else:
+            #     first_flag=False
+            #     previous_frame = current_frame
+            #     current_frame = camera_obj.current_frame
+            # if (previous_frame==current_frame).all():
+            #     time.sleep(1/10)
+            #     continue
+            show_image=copy.deepcopy(current_frame)
+            classify_image=copy.deepcopy(current_frame)
+
+            color_image=cv2.cvtColor(current_frame, cv2.COLOR_BGR2RGB)   # 将BGR转为RGB
             classify_image=cv2.cvtColor(classify_image, cv2.COLOR_BGR2RGB)   # 将BGR转为RGB
-            # print(ret, color_image.shape)
-            if not ret:
-                print('video over')
-                break
+
             start_time=time.time()
             # print(color_image.shape)
             # 判断检测间隔
-            if frame_count%4==0:
-                kp, box,return_track=self.detector(color_image,None,True)
-                print('box:',box)
-            elif return_track is None:
+            kp, box,return_track=self.detector(color_image,None,True)
+            print('box:',box)
+            if return_track is None:
                 pass
             else:
                 kp, box, _ = self.detector(color_image,return_track,False,False)
@@ -354,15 +363,13 @@ class HandKeypoints:
                             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 155), 1, cv2.LINE_AA)
             if save_iamge_flag:
                 self.save_image(show_image)
-            if sysstr == "Windows":
+            if show_flag:
                 cv2.namedWindow("USB Camera", cv2.WINDOW_AUTOSIZE)
                 cv2.imshow("USB Camera", show_image)
-                if cv2.waitKey(1) & 0xFF == ord('q'):
-                    break
-            frame_count += 1
+                cv2.waitKey(1)
 
-        self.cap.release()
-        cv2.destroyAllWindows()
+
+
         # 保存图片
 
     def save_image(self, frame):
@@ -391,4 +398,4 @@ class HandKeypoints:
 
 if __name__ =='__main__':
     test_obj = HandKeypoints()
-    test_obj.infer()
+    test_obj.infer_frame(show_flag=True)

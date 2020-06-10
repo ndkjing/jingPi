@@ -1,4 +1,7 @@
 # refer: https://github.com/streamlit/demo-self-driving
+"""
+用户查看与操作界面
+"""
 
 import streamlit as st
 import altair as alt
@@ -12,9 +15,6 @@ import os, urllib, cv2
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath('__file__'))))))
 
 
-# 预览摄像头数据
-# def view_camera():
-#     pass
 
 def get_image_name():
     """
@@ -35,6 +35,35 @@ def get_image_name():
     last_image_name_0 = os.path.join(out_image_folder, str(images_list[-1]) + '.jpg')
     last_image_name_1 = os.path.join(out_image_folder, str(images_list[-1]) + '.jpg')
     return [last_image_name_0,last_image_name_1]
+
+# 预览摄像头数据
+def view_camera():
+    # refer：https://discuss.streamlit.io/t/streamlit-restful-app/409
+    if not hasattr(st, 'already_started_server'):
+        # Hack the fact that Python modules (like st) only load once to
+        # keep track of whether this file already ran.
+        st.already_started_server = True
+        st.write('''
+            The first time this script executes it will run forever because it's
+            running a Flask server.
+            Just close this browser tab and open a new one to see your Streamlit
+            app.
+        ''')
+
+        from flask import Flask
+        app = Flask(__name__)
+
+        @app.route('/foo')
+        def serve_foo():
+            return 'This page is served via Flask!'
+
+        app.run(port=8888)
+
+    # We'll never reach this part of the code the first time this file executes!
+
+    # Your normal Streamlit app goes here:
+    x = st.slider('Pick a number')
+    st.write('You picked:', x)
 
 
 def car_control():
