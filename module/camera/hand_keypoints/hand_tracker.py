@@ -55,7 +55,7 @@ class HandTracker():
         # 90° rotation matrix used to create the alignment trianlge        
         self.R90 = np.r_[[[0,1],[-1,0]]]
 
-        # trianlge target coordinates used to move the detected hand
+        # trianlge target coordinates used to control the detected hand
         # into the right position
         self._target_triangle = np.float32([
                         [128, 128],
@@ -145,7 +145,7 @@ class HandTracker():
         keypoints = center_wo_offst + candidate_detect[max_idx,4:].reshape(-1,2)
         side = max(w,h) * self.box_enlarge
         
-        # now we need to move and rotate the detected hand for it to occupy a
+        # now we need to control and rotate the detected hand for it to occupy a
         # 256x256 square
         # line from wrist keypoint to middle finger keypoint
         # should point straight up
