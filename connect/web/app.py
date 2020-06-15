@@ -81,6 +81,14 @@ def arm_control():
     st.image(get_image_name())
 
 
+def draw_image_genarate():
+    """
+    上传图片生成draw图片并提供下载
+    :return:
+    """
+    pass
+
+
 def main():
     # Render the readme as markdown using st.markdown.
     readme_text = st.markdown("instructions.md")
@@ -92,12 +100,16 @@ def main():
     # Once we have the dependencies, add a selector for the app mode on the sidebar.
     st.sidebar.title("选择功能")
     app_mode = st.sidebar.selectbox("功能",
-                                    ["说明", "预览摄像头", "car控制", "arm控制"])
+                                    ["说明", "预览摄像头","draw绘图生成", "car控制", "arm控制"])
     if app_mode == "说明":
         st.sidebar.success('各功能说明')
 
     elif app_mode == "预览摄像头":
         st.sidebar.success('To continue select "Run the app".')
+
+    elif app_mode == "car控制":
+        readme_text.empty()
+        draw_image_genarate()
 
     elif app_mode == "car控制":
         readme_text.empty()
